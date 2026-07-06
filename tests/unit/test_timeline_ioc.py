@@ -43,6 +43,18 @@ def test_ioc_extract_public_only():
     assert "10.0.1.5" not in iocs["ipv4"]  # private, dropped
 
 
+def test_ioc_domains_skip_file_extensions():
+    events = [{
+        "process": {"command_line":
+                    "rundll32.exe evil.dll,Start; beacon to bad-c2.example.com"},
+        "event": {"action": "process_cmdline"},
+    }]
+    iocs = ioc.extract(events)
+    assert "bad-c2.example.com" in iocs["domain"]
+    assert "rundll32.exe" not in iocs["domain"]
+    assert "evil.dll" not in iocs["domain"]
+
+
 def test_stix_bundle_shape():
     iocs = {"ipv4": ["185.234.72.19"], "domain": [], "path": []}
     bundle = ioc.to_stix(iocs)

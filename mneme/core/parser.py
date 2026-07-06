@@ -72,8 +72,8 @@ def parse_rows(dataset: str, rows: Iterable[Row]) -> Iterator[ForensicEvent]:
 
 
 # ── process listings ───────────────────────────────────────────────────────
-@register("windows.pslist", "windows.pstree", "linux.pslist", "linux.pstree",
-          "mac.pslist", "mac.pstree")
+@register("windows.pslist", "windows.pstree", "windows.psscan",
+          "linux.pslist", "linux.pstree", "mac.pslist", "mac.pstree")
 def _map_pslist(row: Row) -> Optional[ForensicEvent]:
     pid = _int(_pick(row, "PID", "Pid"))
     if pid is None:

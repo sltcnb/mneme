@@ -16,6 +16,16 @@ Event = dict[str, Any]
 _DOMAIN = re.compile(r"\b([a-z0-9-]+\.)+[a-z]{2,}\b", re.I)
 _IPV4 = re.compile(r"\b\d{1,3}(?:\.\d{1,3}){3}\b")
 
+# File extensions that the domain regex would otherwise mistake for a TLD
+# (e.g. "explorer.exe", "kernel32.dll"). Drop any match ending in one.
+_FILE_EXT = {
+    "exe", "dll", "sys", "dat", "tmp", "log", "ini", "bin", "cfg", "cpl",
+    "scr", "bat", "cmd", "ps1", "vbs", "jar", "msi", "lnk",
+    "db", "sqlite", "xml", "txt", "png", "jpg", "gif", "ico",
+}
+# NB: ".com" is intentionally NOT here — it collides with the .com TLD, which
+# is far more common in evidence than legacy COM executables.
+
 
 def _get(ev: Event, dotted: str, default=None):
     cur: Any = ev
@@ -50,8 +60,10 @@ def extract(events: Iterable[Event]) -> dict[str, list[str]]:
         for m in _IPV4.findall(cmd):
             if _routable(m):
                 ips.add(m)
-        for m in _DOMAIN.findall(cmd):
-            domains.add(m.lower())
+        for full in _DOMAIN.finditer(cmd):
+            d = full.group(0).lower()
+            if d.rsplit(".", 1)[-1] not in _FILE_EXT:
+                domains.add(d)
     return {"ipv4": sorted(ips), "domain": sorted(domains), "path": sorted(paths)}
 
 

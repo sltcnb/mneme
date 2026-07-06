@@ -12,6 +12,7 @@ RECOMMENDED_PLUGINS: dict[str, list[str]] = {
         "windows.info",
         "windows.pslist",
         "windows.pstree",
+        "windows.psscan",
         "windows.cmdline",
         "windows.dlllist",
         "windows.handles",
@@ -47,7 +48,8 @@ RECOMMENDED_PLUGINS: dict[str, list[str]] = {
 
 # Plugins that never depend on another's output → safe to run concurrently.
 PARALLEL_SAFE = {
-    "windows.pslist", "windows.pstree", "windows.cmdline", "windows.dlllist",
+    "windows.pslist", "windows.pstree", "windows.psscan", "windows.cmdline",
+    "windows.dlllist",
     "windows.netscan", "windows.filescan", "windows.malfind", "windows.svcscan",
     "windows.modscan", "windows.ssdt", "windows.handles",
     "linux.pslist", "linux.pstree", "linux.psaux", "linux.sockstat", "linux.lsof",

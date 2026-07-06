@@ -59,6 +59,15 @@ def test_detect_ranks_and_correlates():
     assert any(f.get("correlated", 0) >= 2 for f in p2847)
 
 
+def test_dkom_end_to_end_via_parser():
+    # pid 6666 is in psscan fixture but not in pslist → hidden
+    ev = (_ecs("windows.pslist.json", "windows.pslist")
+          + _ecs("windows.psscan.json", "windows.psscan"))
+    hits = detector.check_dkom(ev)
+    assert [h["pid"] for h in hits] == [6666]
+    assert hits[0]["severity"] == "critical"
+
+
 def test_dkom_scan_minus_list():
     events = [
         {"process": {"pid": 66}, "event": {"dataset": "windows.psscan"}},
