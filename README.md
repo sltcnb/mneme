@@ -1,6 +1,11 @@
 <p align="center"><img src="docs/banner.svg" alt="Mneme" width="100%"></p>
 
-<p align="center"><img src="docs/mneme-pipeline.svg" alt="Mneme pipeline" width="100%"></p>
+## Architecture
+
+```mermaid
+flowchart LR
+  run["run<br/><i>dump → raw</i>"] --> parse["parse<br/><i>→ ECS</i>"] --> detect["detect<br/><i>MITRE ATT&CK</i>"] --> timeline["timeline"] --> report["report<br/><i>HTML</i>"] --> export["export<br/><i>STIX 2.1</i>"]
+```
 
 
 ## Demo
