@@ -1,5 +1,7 @@
 <p align="center"><img src="docs/banner.svg" alt="Mneme" width="100%"></p>
 
+<p align="center"><img src="docs/mneme-pipeline.svg" alt="Mneme pipeline" width="100%"></p>
+
 # Mneme — Memory Forensics Toolkit
 
 [![CI](https://github.com/sltcnb/mneme/actions/workflows/ci.yml/badge.svg)](https://github.com/sltcnb/mneme/actions/workflows/ci.yml)
