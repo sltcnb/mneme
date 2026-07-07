@@ -200,7 +200,7 @@ def detect(events: Iterable[Event], yara_rules: Optional[str] = None) -> list[di
     for f in findings:
         if f.get("pid") is not None:
             by_pid[f["pid"]].append(f)
-    for pid, group in by_pid.items():
+    for group in by_pid.values():
         if len(group) > 1:
             for f in group:
                 f["confidence"] = min(1.0, f["confidence"] + 0.1 * (len(group) - 1))

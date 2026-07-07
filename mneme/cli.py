@@ -27,7 +27,8 @@ from mneme.core import detector as detect_mod
 from mneme.core import ioc as ioc_mod
 from mneme.core import report as report_mod
 from mneme.core import timeline as timeline_mod
-from mneme.core.exporter import FORMATS, export as export_events
+from mneme.core.exporter import FORMATS
+from mneme.core.exporter import export as export_events
 from mneme.core.parser import list_datasets, parse_rows
 from mneme.core.plugins import recommended
 from mneme.ecs.schema import ForensicEvent
@@ -267,8 +268,8 @@ def serve(host, port):
     """Launch the web GUI (requires mneme-dfir[web])."""
     try:
         import uvicorn
-    except ImportError:
-        raise click.ClickException("web extras missing — `pip install mneme-dfir[web]`")
+    except ImportError as e:
+        raise click.ClickException("web extras missing — `pip install mneme-dfir[web]`") from e
     uvicorn.run("mneme.api.server:app", host=host, port=port)
 
 

@@ -1,0 +1,16 @@
+[
+  {
+    "PID": 4, "PPID": 0, "ImageFileName": "System", "Offset(V)": "0xa00",
+    "CreateTime": "2024-01-15T10:30:00+00:00",
+    "__children": [
+      {
+        "PID": 324, "PPID": 4, "ImageFileName": "smss.exe", "Offset(V)": "0xa01",
+        "CreateTime": "2024-01-15T10:30:01+00:00",
+        "__children": [
+          {"PID": 488, "PPID": 324, "ImageFileName": "wininit.exe", "Offset(V)": "0xa03",
+           "CreateTime": "2024-01-15T10:30:04+00:00", "__children": []}
+        ]
+      }
+    ]
+  }
+]

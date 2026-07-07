@@ -1,5 +1,7 @@
 # Mneme — Memory Forensics Toolkit
 
+[![CI](https://github.com/sltcnb/mneme/actions/workflows/ci.yml/badge.svg)](https://github.com/sltcnb/mneme/actions/workflows/ci.yml)
+
 Modern automation layer on top of **Volatility3**. Turns expert-only CLI
 incantations into a repeatable triage pipeline: orchestrate the right plugins,
 normalize output to ECS, hunt malware with heuristics + YARA, reconstruct a
@@ -116,8 +118,16 @@ mneme/
 ## Test
 
 ```bash
-pytest -q          # 17 tests, no dump needed
+pytest -q                                    # unit tests, no dump needed
+ruff check .                                 # lint
+
+# opt-in end-to-end against a real image (needs Volatility3):
+MNEME_TEST_DUMP=/path/to/mem.raw pytest -m integration
+python scripts/validate_dump.py mem.raw      # full pipeline + column-drift report
 ```
+
+`scripts/validate_dump.py` flags any collected dataset whose real Vol3 columns
+don't map to events — the drift the synthetic tests can't catch.
 
 ## License
 

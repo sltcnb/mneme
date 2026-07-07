@@ -11,8 +11,7 @@ from __future__ import annotations
 
 from typing import Any, Callable, Iterable, Iterator, Optional
 
-from mneme.ecs.schema import (Dll, Event, ForensicEvent, Host, Network,
-                                   Process, Registry)
+from mneme.ecs.schema import Dll, Event, ForensicEvent, Host, Network, Process, Registry
 
 Row = dict[str, Any]
 Mapper = Callable[[Row], Optional[ForensicEvent]]
@@ -57,11 +56,28 @@ def _int(v) -> Optional[int]:
         return None
 
 
+def _flatten(rows: Iterable[Row]) -> Iterator[Row]:
+    """Expand Volatility3 tree output (pstree) into flat rows.
+
+    The json renderer nests descendants under `__children`; walk them
+    depth-first, stripping the key so each node maps like a plain row.
+    Flat plugins have no `__children`, so this is a no-op for them.
+    """
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        children = row.get("__children") or []
+        node = {k: v for k, v in row.items() if k != "__children"}
+        yield node
+        if children:
+            yield from _flatten(children)
+
+
 def parse_rows(dataset: str, rows: Iterable[Row]) -> Iterator[ForensicEvent]:
     mapper = get_mapper(dataset)
     if mapper is None:
         return
-    for row in rows:
+    for row in _flatten(rows):
         try:
             ev = mapper(row)
         except Exception:  # noqa: BLE001 — one bad row must not kill the run

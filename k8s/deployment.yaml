@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: mneme
-          image: sltcnb/mneme:latest
+          image: ghcr.io/sltcnb/mneme:latest
           args: ["serve", "--host", "0.0.0.0", "--port", "8080"]
           ports:
             - containerPort: 8080

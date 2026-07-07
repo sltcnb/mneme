@@ -45,6 +45,15 @@ def test_malfind_flags_protection():
     assert any("EXECUTE_READWRITE" in e.memory["protection"] for e in events)
 
 
+def test_pstree_nested_children_flattened():
+    events = list(parse_rows("windows.pstree", _rows("windows.pstree.json")))
+    pids = {e.process.pid for e in events}
+    assert pids == {4, 324, 488}  # root + nested descendants all surfaced
+    wininit = next(e for e in events if e.process.pid == 488)
+    assert wininit.process.parent_pid == 324
+    assert "__children" not in wininit.memory["raw"]
+
+
 def test_bad_row_skipped_not_fatal():
     rows = [{"garbage": 1}, {"PID": 5, "ImageFileName": "x"}]
     events = list(parse_rows("windows.pslist", rows))

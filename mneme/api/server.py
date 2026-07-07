@@ -69,8 +69,8 @@ async def upload_raw(name: str, dataset: str, file: UploadFile):
     raw.write_bytes(await file.read())
     try:
         rows = json.loads(raw.read_text(encoding="utf-8"))
-    except json.JSONDecodeError:
-        raise HTTPException(400, "uploaded file is not valid JSON")
+    except json.JSONDecodeError as e:
+        raise HTTPException(400, "uploaded file is not valid JSON") from e
     events = list(parse_rows(dataset, rows if isinstance(rows, list) else [rows]))
     from mneme.core.exporter import export as export_events
     n = export_events(events, case / "ecs" / f"{dataset}.ecs.jsonl", fmt="jsonl")
