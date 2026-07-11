@@ -81,6 +81,7 @@ def _stix_quote(value: str) -> str:
 def to_stix(iocs: dict[str, list[str]], created: str = "1970-01-01T00:00:00Z") -> dict:
     """Minimal STIX 2.1 bundle of Indicator SDOs (id derived from value)."""
     import hashlib
+    import uuid
 
     patterns = {
         "ipv4": lambda v: f"[ipv4-addr:value = '{_stix_quote(v)}']",
@@ -102,7 +103,9 @@ def to_stix(iocs: dict[str, list[str]], created: str = "1970-01-01T00:00:00Z") -
                 "pattern_type": "stix",
                 "valid_from": created,
             })
-    return {"type": "bundle", "id": f"bundle--{_uuidish('mneme')}", "objects": objects}
+    # STIX 2.1 requires a unique bundle id per bundle, so generate a fresh
+    # random UUIDv4 on every export rather than reusing a constant.
+    return {"type": "bundle", "id": f"bundle--{uuid.uuid4()}", "objects": objects}
 
 
 def _uuidish(seed: str) -> str:

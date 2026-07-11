@@ -63,6 +63,15 @@ def test_stix_bundle_shape():
     assert "ipv4-addr:value = '185.234.72.19'" in bundle["objects"][0]["pattern"]
 
 
+def test_stix_bundle_id_is_unique_per_export():
+    iocs = {"ipv4": ["185.234.72.19"], "domain": [], "path": []}
+    first = ioc.to_stix(iocs)["id"]
+    second = ioc.to_stix(iocs)["id"]
+    assert first.startswith("bundle--")
+    assert second.startswith("bundle--")
+    assert first != second
+
+
 def test_stix_escapes_backslash_and_quote():
     iocs = {"ipv4": [], "domain": [], "path": [r"C:\Windows\Temp\o'ddick.exe"]}
     pattern = ioc.to_stix(iocs)["objects"][0]["pattern"]
