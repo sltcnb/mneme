@@ -61,3 +61,10 @@ def test_stix_bundle_shape():
     assert bundle["type"] == "bundle"
     assert bundle["objects"][0]["type"] == "indicator"
     assert "ipv4-addr:value = '185.234.72.19'" in bundle["objects"][0]["pattern"]
+
+
+def test_stix_escapes_backslash_and_quote():
+    iocs = {"ipv4": [], "domain": [], "path": [r"C:\Windows\Temp\o'ddick.exe"]}
+    pattern = ioc.to_stix(iocs)["objects"][0]["pattern"]
+    # backslashes doubled, single quote escaped → valid STIX 2.1 literal
+    assert pattern == r"[file:name = 'C:\\Windows\\Temp\\o\'ddick.exe']"

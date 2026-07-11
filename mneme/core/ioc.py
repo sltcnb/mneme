@@ -67,14 +67,25 @@ def extract(events: Iterable[Event]) -> dict[str, list[str]]:
     return {"ipv4": sorted(ips), "domain": sorted(domains), "path": sorted(paths)}
 
 
+def _stix_quote(value: str) -> str:
+    """Escape a value for a STIX 2.1 pattern string literal.
+
+    Per the STIX 2.1 spec, backslash and single-quote are the only characters
+    that must be escaped inside a single-quoted literal. Backslash must be
+    escaped first so the quote-escape's own backslash is not doubled again.
+    Windows paths (e.g. ``C:\\Windows\\...``) otherwise emit invalid patterns.
+    """
+    return value.replace("\\", "\\\\").replace("'", "\\'")
+
+
 def to_stix(iocs: dict[str, list[str]], created: str = "1970-01-01T00:00:00Z") -> dict:
     """Minimal STIX 2.1 bundle of Indicator SDOs (id derived from value)."""
     import hashlib
 
     patterns = {
-        "ipv4": lambda v: f"[ipv4-addr:value = '{v}']",
-        "domain": lambda v: f"[domain-name:value = '{v}']",
-        "path": lambda v: f"[file:name = '{v}']",
+        "ipv4": lambda v: f"[ipv4-addr:value = '{_stix_quote(v)}']",
+        "domain": lambda v: f"[domain-name:value = '{_stix_quote(v)}']",
+        "path": lambda v: f"[file:name = '{_stix_quote(v)}']",
     }
     objects = []
     for kind, values in iocs.items():
