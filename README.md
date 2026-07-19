@@ -62,16 +62,16 @@ pip install -e ".[web,dev]"    # web GUI + tests
 
 ```bash
 # 1. run recommended plugins against a dump (auto OS-detect + parallel)
-Madeleine run memory.raw -o case/
+mneme run memory.raw -o case/
 
 # 2. normalize raw Vol3 JSON → ECS
-Madeleine parse case/raw -o case/
+mneme parse case/raw -o case/
 
 # 3. hunt
-Madeleine detect   case/ecs
-Madeleine timeline case/ecs --cluster
-Madeleine report   case/                 # → case/report.html
-Madeleine stix     case/ecs -o iocs.json
+mneme detect   case/ecs
+mneme timeline case/ecs --cluster
+mneme report   case/                 # → case/report.html
+mneme stix     case/ecs -o iocs.json
 ```
 
 Already have Vol3 JSON? Drop it in `case/raw/` (named `<plugin>.json`) and start
@@ -105,7 +105,7 @@ kubectl apply -f k8s/deployment.yaml
 ```
 
 Web mode serves a dependency-free dashboard at `/` and a JSON API under `/api`.
-Cases live under `Madeleine_DATA` (default `/data`); per-user workspaces map to
+Cases live under `MNEME_DATA` (default `/data`); per-user workspaces map to
 per-user case subdirectories. JWT/OAuth + RBAC bolt on at the gateway.
 
 ## Layout
@@ -133,7 +133,7 @@ pytest -q                                    # unit tests, no dump needed
 ruff check .                                 # lint
 
 # opt-in end-to-end against a real image (needs Volatility3):
-Madeleine_TEST_DUMP=/path/to/mem.raw pytest -m integration
+MNEME_TEST_DUMP=/path/to/mem.raw pytest -m integration
 python scripts/validate_dump.py mem.raw      # full pipeline + column-drift report
 ```
 

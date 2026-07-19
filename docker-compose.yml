@@ -1,8 +1,7 @@
-version: "3.8"
 services:
   mneme:
     build: .
-    image: ghcr.io/sltcnb/mneme:latest
+    image: ghcr.io/sltcnb/madeleine:latest
     ports:
       - "8080:8080"
     volumes:

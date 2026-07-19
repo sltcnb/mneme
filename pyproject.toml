@@ -29,9 +29,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/sltcnb/mneme"
-Repository = "https://github.com/sltcnb/mneme"
-Issues = "https://github.com/sltcnb/mneme/issues"
+Homepage = "https://github.com/sltcnb/Madeleine"
+Repository = "https://github.com/sltcnb/Madeleine"
+Issues = "https://github.com/sltcnb/Madeleine/issues"
 
 [project.optional-dependencies]
 vol = ["volatility3>=2.5.0"]

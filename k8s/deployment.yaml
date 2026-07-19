@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: mneme
-          image: ghcr.io/sltcnb/mneme:latest
+          image: ghcr.io/sltcnb/madeleine:latest
           args: ["serve", "--host", "0.0.0.0", "--port", "8080"]
           ports:
             - containerPort: 8080
@@ -32,6 +32,10 @@ spec:
           securityContext:
             runAsNonRoot: true
             allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            seccompProfile:
+              type: RuntimeDefault
       volumes:
         - name: data
           persistentVolumeClaim:
