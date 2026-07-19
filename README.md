@@ -1,6 +1,8 @@
 # Madeleine — Memory Forensics Toolkit
 
-[![CI](https://github.com/sltcnb/Madeleine/actions/workflows/ci.yml/badge.svg)](https://github.com/sltcnb/madeleine/actions/workflows/ci.yml)
+[![CI](https://github.com/sltcnb/Madeleine/actions/workflows/ci.yml/badge.svg)](https://github.com/sltcnb/Madeleine/actions/workflows/ci.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.9%20%7C%203.11%20%7C%203.12-blue.svg)](pyproject.toml)
 
 Modern automation layer on top of **Volatility3**. Turns expert-only CLI
 incantations into a repeatable triage pipeline: orchestrate the right plugins,
@@ -140,6 +142,12 @@ python scripts/validate_dump.py mem.raw      # full pipeline + column-drift repo
 `scripts/validate_dump.py` flags any collected dataset whose real Vol3 columns
 don't map to events — the drift the synthetic tests can't catch.
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the dev setup, test workflow, and
+how to add a parser. Security issues: please follow [SECURITY.md](SECURITY.md)
+and do not open a public issue.
+
 ## License
 
-Apache-2.0.
+[Apache-2.0](LICENSE).
