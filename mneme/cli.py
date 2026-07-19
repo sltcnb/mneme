@@ -262,7 +262,9 @@ def parsers_cmd():
 
 
 @cli.command("serve")
-@click.option("--host", default="0.0.0.0", show_default=True)
+@click.option("--host", default="127.0.0.1", show_default=True,
+              help="Bind address. The API ships no auth — only bind a public "
+                   "interface (e.g. 0.0.0.0) behind a trusted gateway.")
 @click.option("--port", default=8080, show_default=True)
 def serve(host, port):
     """Launch the web GUI (requires mneme-dfir[web])."""
