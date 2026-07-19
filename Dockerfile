@@ -1,4 +1,4 @@
-FROM python:3.12-slim
+FROM python:3.14-slim
 
 LABEL org.opencontainers.image.title="mneme" \
       org.opencontainers.image.description="Memory forensics toolkit built on Volatility3"
